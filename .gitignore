@@ -64,3 +64,4 @@ buck-out/
 /vendor/bundle/
 .env
 src/screens/auth/Login.js
+.gitignore
