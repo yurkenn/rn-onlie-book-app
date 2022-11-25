@@ -7,11 +7,12 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeNavigation from './../home/HomeNavigation';
 import AuthNavigation from './../auth/AuthNavigation';
 import {useSelector} from 'react-redux';
+import {authSelector} from '../../redux/authSlice';
 
 const Stack = createNativeStackNavigator();
 
 const MainNavigation = () => {
-  const isAuth = useSelector(state => state.auth.isAuth);
+  const isAuth = useSelector(authSelector).isAuth;
   return (
     <NavigationContainer>
       <Stack.Navigator>
