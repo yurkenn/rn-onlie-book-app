@@ -22,6 +22,7 @@ const CustomTextInput = ({
       placeholder={placeholder}
       style={style}
       theme={{colors: {primary: colors.primary}}}
+      secureTextEntry={label === 'Password' ? true : false}
     />
   );
 };
