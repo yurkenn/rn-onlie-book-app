@@ -12,10 +12,11 @@ import ProfileScreen from '../../screens/Home/ProfileScreen';
 
 import BottomIcon from '../../components/general/ButtomIcon';
 import {colors} from '../../styles/styles';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Tab = createBottomTabNavigator();
 
-const HomeNavigation = () => {
+const HomeTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -80,6 +81,6 @@ const HomeNavigation = () => {
   );
 };
 
-export default HomeNavigation;
+export default HomeTabNavigator;
 
 const styles = StyleSheet.create({});
