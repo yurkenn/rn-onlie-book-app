@@ -1,4 +1,11 @@
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import useApi from '../../hooks/apiRequest/useApi';
 import Config from 'react-native-config';
@@ -10,6 +17,18 @@ import BottomIcon from './../../components/general/ButtomIcon';
 const SearchScreen = () => {
   const [data, loading, error, setSearchTerm] = useApi(Config.API_URL);
   const [searchText, setSearchText] = useState('');
+  // https://covers.openlibrary.org/b/id/10580435-L.jpg
+  const bookWithCover = data.map(singleBook => {
+    return {
+      ...singleBook,
+      id: singleBook.id.replace('/works/', ''),
+      cover_img: singleBook.cover_id
+        ? `https://covers.openlibrary.org/b/id/${singleBook.cover_id}-L.jpg`
+        : 'https://raw.githubusercontent.com/prabinmagar/booklib-app-using-react-js-and-openlib-api/master/src/images/cover_not_found.jpg',
+    };
+  });
+
+  console.log('bookwithcover', bookWithCover);
 
   const handleSearch = () => {
     setSearchTerm(searchText);
@@ -17,14 +36,7 @@ const SearchScreen = () => {
   };
 
   const renderItem = ({item}) => {
-    return (
-      <View style={styles.container}>
-        <Text>{item.title}</Text>
-        <Text>{item.author}</Text>
-        <Text>{item.first_publish_year}</Text>
-        <Text>{item.edition_count}</Text>
-      </View>
-    );
+    return <SearchFeeds item={item} />;
   };
 
   return (
@@ -38,7 +50,7 @@ const SearchScreen = () => {
       <TouchableOpacity onPress={handleSearch}>
         <BottomIcon name="search" size={25} color={colors.tertiary} />
       </TouchableOpacity>
-      <FlatList data={data} renderItem={renderItem} />
+      <FlatList data={bookWithCover} renderItem={renderItem} />
     </View>
   );
 };
@@ -61,9 +73,10 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 5,
   },
-  flatlistContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+
+  image: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
   },
 });

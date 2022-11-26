@@ -1,31 +1,37 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import useApi from '../../hooks/apiRequest/useApi';
-import Config from 'react-native-config';
-// https://covers.openlibrary.org/b/id/240727-S.jpg
+import {useNavigation} from '@react-navigation/native';
+
 const SearchFeeds = ({item}) => {
-  //   const [data, loading, error, setSearchTerm] = useApi(Config.API_URL);
+  const navigation = useNavigation();
 
-  //   const bookWithCover = data.map(singleBook => {
-  //     return {
-  //       ...singleBook,
-  //       id: singleBook.id.replace('/works/', ''),
-  //       cover_img: singleBook.cover_id
-  //         ? ` https://covers.openlibrary.org/b/id/${singleBook.cover_id}-L.jpg`
-  //         : 'https://covers.openlibrary.org/b/id/240727-S.jpg',
-  //     };
-  //   });
-
-  //   console.log('bookwithcover', bookWithCover);
-
-  //   if (loading) {
-  //     return <Text>Loading...</Text>;
-  //   }
+  const handleNavigation = () => {
+    navigation.navigate('BookDetails', {item});
+  };
 
   return (
-    <View style={styles.container}>
-      <Text>{item.title}</Text>
-    </View>
+    <TouchableOpacity onPress={handleNavigation}>
+      <View style={styles.container}>
+        <View style={styles.inner_container}>
+          <Image source={{uri: item.cover_img}} style={styles.image} />
+          <View style={styles.text_container}>
+            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.author}>
+              <Text style={styles.author_name}>Author:</Text>
+              {item.author}
+            </Text>
+            <Text style={styles.edition}>
+              <Text style={styles.edition_text}>Total Editions:</Text>
+              {item.edition_count}
+            </Text>
+            <Text style={styles.publish}>
+              <Text style={styles.publish_text}>First Publish Year:</Text>
+              {item.first_publish_year}
+            </Text>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -34,8 +40,35 @@ export default SearchFeeds;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 10,
+    padding: 10,
+    elevation: 5,
+  },
+  inner_container: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  image: {
+    width: 100,
+    height: 165,
+  },
+  text_container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  author_name: {
+    fontWeight: 'bold',
   },
 });
