@@ -1,31 +1,58 @@
-// create custom hook for api request with axios.
-
-import {useState, useEffect} from 'react';
 import axios from 'axios';
-import Config from 'react-native-config';
+import {useCallback, useEffect, useState} from 'react';
 
 const useApi = url => {
-  const [response, setResponse] = useState(null);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios({
-          url: url,
+  const [searchTerm, setSearchTerm] = useState('Harry Potter');
+  const [resultTitle, setResultTitle] = useState('');
+
+  const fetchBooks = useCallback(async () => {
+    try {
+      const response = await axios.get(`${url}${searchTerm}`);
+      const {docs} = response.data;
+
+      if (response) {
+        const newBooks = docs.slice(0, 20).map(bookSingle => {
+          const {
+            key,
+            author_name,
+            title,
+            cover_i,
+            first_publish_year,
+            edition_count,
+          } = bookSingle;
+          return {
+            id: key,
+            author: author_name,
+            cover_id: cover_i,
+            edition_count: edition_count,
+            first_publish_year: first_publish_year,
+            title: title,
+          };
         });
-        setResponse(res.data);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
+        setData(newBooks);
+        if (newBooks.length > 0) {
+          setResultTitle('Search results for: ' + searchTerm);
+        } else {
+          setResultTitle('No results for: ' + searchTerm);
+        }
         setLoading(false);
       }
-    };
-    fetchData();
-  }, [url]);
+    } catch (err) {
+      console.log(err);
+      setError(true);
+      setLoading(false);
+    }
+  }, [searchTerm, url]);
 
-  return {response, error, loading};
+  useEffect(() => {
+    fetchBooks();
+  }, [fetchBooks, searchTerm]);
+
+  return [data, loading, error, setSearchTerm, resultTitle];
 };
 
 export default useApi;
