@@ -10,22 +10,22 @@ const SearchFeeds = ({item}) => {
   };
 
   return (
-    <TouchableOpacity onPress={handleNavigation}>
+    <TouchableOpacity onPress={() => handleNavigation(item.id)}>
       <View style={styles.container}>
         <View style={styles.inner_container}>
           <Image source={{uri: item.cover_img}} style={styles.image} />
           <View style={styles.text_container}>
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.author}>
-              <Text style={styles.author_name}>Author:</Text>
+              <Text style={styles.author_name}>Author: </Text>
               {item.author}
             </Text>
             <Text style={styles.edition}>
-              <Text style={styles.edition_text}>Total Editions:</Text>
+              <Text style={styles.edition_text}>Total Editions: </Text>
               {item.edition_count}
             </Text>
             <Text style={styles.publish}>
-              <Text style={styles.publish_text}>First Publish Year:</Text>
+              <Text style={styles.publish_text}>First Publish Year: </Text>
               {item.first_publish_year}
             </Text>
           </View>
@@ -70,5 +70,20 @@ const styles = StyleSheet.create({
   },
   author_name: {
     fontWeight: 'bold',
+  },
+  author: {
+    fontSize: 16,
+  },
+  edition_text: {
+    fontWeight: 'bold',
+  },
+  edition: {
+    fontSize: 16,
+  },
+  publish_text: {
+    fontWeight: 'bold',
+  },
+  publish: {
+    fontSize: 16,
   },
 });

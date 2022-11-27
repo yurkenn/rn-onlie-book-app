@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   Image,
   StyleSheet,
@@ -14,10 +15,13 @@ import Icon from './../../components/general/ButtomIcon';
 import {colors} from '../../styles/styles';
 import SearchFeeds from '../../components/feeds/SearchFeeds';
 import BottomIcon from './../../components/general/ButtomIcon';
+import Loading from './../../components/general/Loading';
+import Error from './../../components/general/Error';
+
 const SearchScreen = () => {
   const [data, loading, error, setSearchTerm] = useApi(Config.API_URL);
   const [searchText, setSearchText] = useState('');
-  // https://covers.openlibrary.org/b/id/10580435-L.jpg
+
   const bookWithCover = data.map(singleBook => {
     return {
       ...singleBook,
@@ -31,7 +35,9 @@ const SearchScreen = () => {
   console.log('bookwithcover', bookWithCover);
 
   const handleSearch = () => {
-    setSearchTerm(searchText);
+    searchText === ''
+      ? Alert.alert('Please enter a search term')
+      : setSearchTerm(searchText);
     return setSearchText('');
   };
 
@@ -39,15 +45,24 @@ const SearchScreen = () => {
     return <SearchFeeds item={item} />;
   };
 
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error />;
+  }
+
   return (
-    <View>
+    <View style={styles.container}>
       <CustomTextInput
         style={styles.searchInput}
-        placeholder="Search"
+        placeholder="Search for books here..."
         onChangeText={text => setSearchText(text)}
         value={searchText}
       />
-      <TouchableOpacity onPress={handleSearch}>
+      <TouchableOpacity style={styles.button} onPress={handleSearch}>
+        <Text style={styles.search_text}>Search</Text>
         <BottomIcon name="search" size={25} color={colors.tertiary} />
       </TouchableOpacity>
       <FlatList data={bookWithCover} renderItem={renderItem} />
@@ -58,6 +73,24 @@ const SearchScreen = () => {
 export default SearchScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.primary,
+  },
+  button: {
+    flexDirection: 'row',
+    position: 'absolute',
+    right: 25,
+    top: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  search_text: {
+    fontSize: 16,
+    color: colors.tertiary,
+    fontWeight: 'bold',
+    marginRight: 10,
+  },
   searchContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -66,10 +99,11 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     backgroundColor: 'white',
-    width: 300,
+    width: '90%',
     height: 50,
     borderRadius: 10,
     margin: 10,
+    marginLeft: 20,
     padding: 10,
     elevation: 5,
   },
