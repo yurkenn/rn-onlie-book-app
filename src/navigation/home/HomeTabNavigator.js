@@ -18,7 +18,11 @@ const HomeTabNavigator = () => {
     <Tab.Navigator
       initialRouteName="SearchScreen"
       screenOptions={{
-        headerShown: false,
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: colors.tertiary,
+        },
+        headerTintColor: colors.primary,
         tabBarStyle: {
           backgroundColor: colors.primary,
           borderTopWidth: 0,

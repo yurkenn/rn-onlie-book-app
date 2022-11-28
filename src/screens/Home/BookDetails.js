@@ -1,17 +1,27 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import axios from 'axios';
-import {ScrollView} from 'react-native-gesture-handler';
+import {ScrollView, TapGestureHandler} from 'react-native-gesture-handler';
 import {colors} from '../../styles/styles';
 import Loading from '../../components/general/Loading';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSpring,
+} from 'react-native-reanimated';
+import {useDispatch} from 'react-redux';
+import {addFavorite} from '../../redux/favoriteSlice';
 
 const URL = 'https://openlibrary.org/works/';
+
+const AnimatedImage = Animated.createAnimatedComponent(Image);
 
 const BookDetails = ({route}) => {
   const {item} = route.params;
   const [loading, setLoading] = useState(false);
   const [book, setBook] = useState(null);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     setLoading(true);
     async function fetchData() {
@@ -55,6 +65,21 @@ const BookDetails = ({route}) => {
     fetchData();
   }, [item.id]);
 
+  const doubleTapRef = useRef();
+  const scale = useSharedValue(0);
+  const rStlye = useAnimatedStyle(() => ({
+    transform: [{scale: scale.value}],
+  }));
+
+  const onDoubleTap = useCallback(() => {
+    scale.value = withSpring(1, undefined, isFinished => {
+      if (isFinished) {
+        scale.value = withDelay(400, withSpring(0));
+      }
+    });
+    return dispatch(addFavorite(item));
+  }, [scale, dispatch, item]);
+
   console.log(book);
 
   if (loading) {
@@ -63,23 +88,34 @@ const BookDetails = ({route}) => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.inner_container}>
-        <Image style={styles.image} source={{uri: book?.cover_img}} />
-        <Text style={styles.title}>{book?.title}</Text>
-        <Text style={styles.description}>{book?.description}</Text>
-        <Text style={styles.places}>
-          <Text style={styles.text}>Subject Places: </Text>
-          {book?.subject_places}
-        </Text>
-        <Text style={styles.times}>
-          <Text style={styles.text}>Subject Time: </Text>
-          {book?.subject_times}
-        </Text>
-        <Text style={styles.subject}>
-          <Text style={styles.text}>Subject: </Text>
-          {book?.subjects}
-        </Text>
-      </View>
+      <TapGestureHandler
+        ref={doubleTapRef}
+        numberOfTaps={2}
+        onActivated={onDoubleTap}>
+        <Animated.View>
+          <View style={styles.inner_container}>
+            <Image style={styles.image} source={{uri: book?.cover_img}} />
+            <AnimatedImage
+              source={require('../../assets/images/open-book.png')}
+              style={[styles.heart, rStlye]}
+            />
+            <Text style={styles.title}>{book?.title}</Text>
+            <Text style={styles.description}>{book?.description}</Text>
+            <Text style={styles.places}>
+              <Text style={styles.text}>Subject Places: </Text>
+              {book?.subject_places}
+            </Text>
+            <Text style={styles.times}>
+              <Text style={styles.text}>Subject Time: </Text>
+              {book?.subject_times}
+            </Text>
+            <Text style={styles.subject}>
+              <Text style={styles.text}>Subject: </Text>
+              {book?.subjects}
+            </Text>
+          </View>
+        </Animated.View>
+      </TapGestureHandler>
     </ScrollView>
   );
 };
@@ -101,6 +137,12 @@ const styles = StyleSheet.create({
     width: 200,
     height: 330,
     marginBottom: 20,
+  },
+  heart: {
+    position: 'absolute',
+    width: 50,
+    height: 50,
+    top: 150,
   },
   title: {
     color: colors.tertiary,

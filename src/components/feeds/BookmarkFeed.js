@@ -1,25 +1,19 @@
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Image} from 'react-native';
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {colors} from '../../styles/styles';
+import {removeFavorite} from '../../redux/favoriteSlice';
+import {useDispatch} from 'react-redux';
 
-const SearchFeeds = ({item}) => {
-  const navigation = useNavigation();
-  const handleNavigation = () => {
-    navigation.navigate('BookDetails', {item});
+const BookmarkFeed = ({item, onSelect}) => {
+  const dispatch = useDispatch();
+
+  const handleRemove = () => {
+    dispatch(removeFavorite(item));
   };
 
   return (
     <Pressable
       style={({pressed}) => pressed && styles.pressed}
-      onPress={() => handleNavigation(item)}>
+      onLongPress={handleRemove}>
       <View style={styles.container}>
         <Image style={styles.image} source={{uri: item.cover_img}} />
         <View style={styles.textContainer}>
@@ -43,7 +37,7 @@ const SearchFeeds = ({item}) => {
   );
 };
 
-export default SearchFeeds;
+export default BookmarkFeed;
 
 const styles = StyleSheet.create({
   container: {
@@ -59,41 +53,17 @@ const styles = StyleSheet.create({
   image: {
     width: 240,
     height: 350,
+    borderRadius: 10,
     margin: 10,
   },
   textContainer: {
-    width: '100%',
+    width: 300,
     height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
+    margin: 10,
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
-  },
-  author: {
-    fontSize: 16,
-  },
-  author_text: {
-    fontWeight: 'bold',
-    color: colors.quaternary,
-  },
-  edition: {
-    fontSize: 16,
-  },
-  edition_text: {
-    fontWeight: 'bold',
-    color: colors.quaternary,
-  },
-  publish: {
-    fontSize: 16,
-  },
-  publish_text: {
-    fontWeight: 'bold',
-    color: colors.quaternary,
-  },
-  pressed: {
-    opacity: 0.75,
   },
 });

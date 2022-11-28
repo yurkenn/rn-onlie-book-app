@@ -65,7 +65,15 @@ const SearchScreen = () => {
         <Text style={styles.search_text}>Search</Text>
         <BottomIcon name="search" size={25} color={colors.tertiary} />
       </TouchableOpacity>
-      <FlatList data={bookWithCover} renderItem={renderItem} horizontal />
+      <FlatList
+        data={bookWithCover}
+        renderItem={renderItem}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={item => item.id}
+        snapToAlignment="center"
+        decelerationRate="fast"
+        snapToInterval={330}
+      />
     </View>
   );
 };
