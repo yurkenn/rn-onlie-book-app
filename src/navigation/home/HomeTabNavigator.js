@@ -1,24 +1,22 @@
 // create home bottom tab navigation
 
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import HomeScreen from '../../screens/Home/HomeScreen';
 import BookMarkScreen from '../../screens/Home/BookMarkScreen';
 import SearchScreen from '../../screens/Home/SearchScreen';
 import ProfileScreen from '../../screens/Home/ProfileScreen';
 
 import BottomIcon from '../../components/general/ButtomIcon';
 import {colors} from '../../styles/styles';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Tab = createBottomTabNavigator();
 
 const HomeTabNavigator = () => {
   return (
     <Tab.Navigator
+      initialRouteName="SearchScreen"
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
@@ -37,16 +35,6 @@ const HomeTabNavigator = () => {
           fontWeight: 'bold',
         },
       }}>
-      <Tab.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{
-          tabBarIcon: ({color, size}) => (
-            <BottomIcon name="home" size={20} color={color} />
-          ),
-          title: 'Home',
-        }}
-      />
       <Tab.Screen
         name="BookmarkScreen"
         component={BookMarkScreen}
@@ -82,5 +70,3 @@ const HomeTabNavigator = () => {
 };
 
 export default HomeTabNavigator;
-
-const styles = StyleSheet.create({});

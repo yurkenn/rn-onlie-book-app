@@ -65,7 +65,7 @@ const SearchScreen = () => {
         <Text style={styles.search_text}>Search</Text>
         <BottomIcon name="search" size={25} color={colors.tertiary} />
       </TouchableOpacity>
-      <FlatList data={bookWithCover} renderItem={renderItem} />
+      <FlatList data={bookWithCover} renderItem={renderItem} horizontal />
     </View>
   );
 };
