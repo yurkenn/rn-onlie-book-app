@@ -3,9 +3,11 @@
 ## Screenshots
 
 <div>
-<img src="" width="222" height="480" />
-<img src="" width="222" height="480" />
-<img src="" width="222" height="480" />
+<img src="https://user-images.githubusercontent.com/69719126/204603344-a4e690d9-2eb9-467a-9c5e-956b9ed751b5.png" width="222" height="480" />
+<img src="https://user-images.githubusercontent.com/69719126/204603350-8238d698-85aa-4053-9d81-bde52a381670.png" width="222" height="480" />
+<img src="https://user-images.githubusercontent.com/69719126/204603359-dcc81938-4690-49e8-9c08-4d5530b85178.png" width="222" height="480" />
+<img src="https://user-images.githubusercontent.com/69719126/204603361-4f86f0e5-ebbd-4cb0-980c-9c4742a6d16d.png" width="222" height="480" />
+<img src="https://user-images.githubusercontent.com/69719126/204603367-a985df04-7278-43b2-be05-39e1781f3cfc.png" width="222" height="480" />
 </div>
 
 ## Setup
@@ -18,31 +20,36 @@
 - React Navigation
 - Redux
 - Vector Icons
+- Reanimated
+- Formik 
+- Lottie
+- Firebase
+- Modal
 
 ## Features
 
-- Listing returned jobs with API.
-- You can change the page with arrow icons.
-- You can click the job and see the details of job .
-- There is two buton under the job details.
-- You can add the jobs you like to your favourites.
-- You can list your favourites jobs with drawer
+- Listing returned books with API.
+- You search books in search screen.
+- You can click the book and see the details.
+- There is a bookmark screen.
+- You can double click and add books in your bookmark screen.
+- There is a profile screen you can update your profile
 
 ## API
 
-`API Linki: https://www.themuse.com/developers/api/v2`
+`API Linki: https://openlibrary.org/search`
 
 ## Beginning
 
 Clone this repository on your local machine.
 <br>
-`git clone https://github.com/yurkenn/react-native-codework.git`
+`git clone https://github.com/yurkenn/rn-onlie-book-app.git`
 
 ## Use
 
 To use it after cloning the project:
 <br>
-`cd react-native-codework`
+`cd fourth-week-homework-yurkenn`
 <br>
 `code .`
 <br>
