@@ -13,7 +13,7 @@ const CustomButton = ({onPress, title, style, children}) => {
 
 const styles = StyleSheet.create({
   buttonText: {
-    color: colors.white,
+    color: colors.primary,
     fontSize: 20,
     textAlign: 'center',
     padding: 10,

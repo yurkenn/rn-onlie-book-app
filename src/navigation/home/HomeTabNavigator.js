@@ -10,10 +10,21 @@ import ProfileScreen from '../../screens/Home/ProfileScreen';
 
 import BottomIcon from '../../components/general/ButtomIcon';
 import {colors} from '../../styles/styles';
+import {TouchableOpacity} from 'react-native';
+import {logoutFirebase} from '../../services/auth/firebase';
+import {useDispatch} from 'react-redux';
+import {logout} from '../../redux/authSlice';
 
 const Tab = createBottomTabNavigator();
 
 const HomeTabNavigator = () => {
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    await logoutFirebase();
+    dispatch(logout());
+  };
+
   return (
     <Tab.Navigator
       initialRouteName="SearchScreen"
@@ -67,6 +78,16 @@ const HomeTabNavigator = () => {
             <BottomIcon name="user" size={20} color={color} />
           ),
           title: 'Profile',
+          headerRight: () => (
+            // logout button
+            <TouchableOpacity onPress={handleLogout}>
+              <BottomIcon
+                name="sign-out-alt"
+                size={20}
+                color={colors.primary}
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
     </Tab.Navigator>

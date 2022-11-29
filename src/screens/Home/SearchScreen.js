@@ -10,8 +10,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import useApi from '../../hooks/apiRequest/useApi';
 import Config from 'react-native-config';
-import CustomTextInput from './../../components/general/CustomTextInput';
-import Icon from './../../components/general/ButtomIcon';
+import Input from './../../components/general/Input';
 import {colors} from '../../styles/styles';
 import SearchFeeds from '../../components/feeds/SearchFeeds';
 import BottomIcon from './../../components/general/ButtomIcon';
@@ -55,7 +54,7 @@ const SearchScreen = () => {
 
   return (
     <View style={styles.container}>
-      <CustomTextInput
+      <Input
         style={styles.searchInput}
         placeholder="Search for books here..."
         onChangeText={text => setSearchText(text)}

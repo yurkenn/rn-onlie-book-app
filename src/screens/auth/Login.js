@@ -7,7 +7,7 @@ import {colors} from '../../styles/styles';
 import {loginFirebase} from '../../services/auth/firebase';
 import {useDispatch} from 'react-redux';
 import {login} from '../../redux/authSlice';
-import CustomTextInput from '../../components/general/CustomTextInput';
+import Input from '../../components/general/Input';
 import CustomButton from '../../components/general/CustomButton';
 
 const Login = () => {
@@ -41,7 +41,7 @@ const Login = () => {
           touched,
         }) => (
           <View style={styles.inner_container}>
-            <CustomTextInput
+            <Input
               style={styles.textInput}
               label="Email"
               mode="outlined"
@@ -53,7 +53,7 @@ const Login = () => {
             {errors.email && touched.email && (
               <Text style={styles.error}>{errors.email}</Text>
             )}
-            <CustomTextInput
+            <Input
               style={styles.textInput}
               label="Password"
               mode="outlined"
@@ -75,8 +75,9 @@ const Login = () => {
             <TouchableOpacity
               mode="contained"
               onPress={() => navigation.navigate('Register')}
-              Register>
-              <Text>Don't you have an account ?</Text>
+              Register
+              style={styles.register}>
+              <Text style={styles.text}>Don't you have an account ?</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -125,9 +126,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 10,
   },
-
   error: {
     color: 'white',
+  },
+  register: {
+    marginTop: 10,
+  },
+  text: {
+    color: colors.tertiary,
   },
 });
 

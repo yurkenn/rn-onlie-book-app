@@ -7,7 +7,7 @@ import {colors} from '../../styles/styles';
 import {useDispatch} from 'react-redux';
 import {registerFirebase} from '../../services/auth/firebase';
 import {register} from '../../redux/authSlice';
-import CustomTextInput from '../../components/general/CustomTextInput';
+import Input from '../../components/general/Input';
 import CustomButton from '../../components/general/CustomButton';
 const Register = () => {
   const navigation = useNavigation();
@@ -43,7 +43,7 @@ const Register = () => {
           touched,
         }) => (
           <View style={styles.inner_container}>
-            <CustomTextInput
+            <Input
               style={styles.textInput}
               label="Email"
               mode="outlined"
@@ -55,7 +55,7 @@ const Register = () => {
             {errors.email && touched.email && (
               <Text style={styles.error}>{errors.email}</Text>
             )}
-            <CustomTextInput
+            <Input
               style={styles.textInput}
               label="Password"
               mode="outlined"
@@ -68,7 +68,7 @@ const Register = () => {
             {errors.password && touched.password && (
               <Text style={styles.error}>{errors.password}</Text>
             )}
-            <CustomTextInput
+            <Input
               style={styles.textInput}
               label="Confirm Password"
               mode="outlined"
@@ -89,8 +89,11 @@ const Register = () => {
             </CustomButton>
             <TouchableOpacity
               onPress={() => navigation.navigate('Login')}
-              title="Login">
-              <Text>Do you already have an account</Text>
+              title="Login"
+              style={styles.loginButton}>
+              <Text style={styles.login_text}>
+                Do you already have an account
+              </Text>
             </TouchableOpacity>
           </View>
         )}
@@ -139,9 +142,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 10,
   },
-
   error: {
     color: 'white',
+  },
+  loginButton: {
+    marginTop: 10,
+  },
+  login_text: {
+    color: colors.tertiary,
   },
 });
 export default Register;
