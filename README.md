@@ -49,7 +49,7 @@ Clone this repository on your local machine.
 
 To use it after cloning the project:
 <br>
-`cd fourth-week-homework-yurkenn`
+`cd rn-onlie-book-app`
 <br>
 `code .`
 <br>
